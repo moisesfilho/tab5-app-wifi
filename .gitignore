@@ -1,0 +1,4 @@
+build/
+dist/
+*.wasm
+.DS_Store
