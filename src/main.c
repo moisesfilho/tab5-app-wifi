@@ -84,7 +84,15 @@ static void scan_wifi_networks(void)
             }
         }
     } else {
-        tab5_ui_list_add_btn(s_list_networks, LV_SYMBOL_CLOSE, "Nenhuma rede encontrada no alcance");
+        const char *message = "Nenhuma rede encontrada no alcance";
+        if (!tab5_wifi_is_enabled()) {
+            message = "Wi-Fi desabilitado";
+        } else if (err == TAB5_ERR_TIMEOUT) {
+            message = "Tempo esgotado ao buscar redes Wi-Fi";
+        } else if (err != TAB5_OK) {
+            message = "Falha ao buscar redes Wi-Fi";
+        }
+        tab5_ui_list_add_btn(s_list_networks, LV_SYMBOL_CLOSE, message);
     }
 }
 
@@ -111,9 +119,11 @@ static void on_connect_clicked(void)
         return;
     }
 
-    const char *pwd = "";
+    char pwd[256] = {0};
     if (s_ta_password != TAB5_UI_INVALID_OBJ) {
-        pwd = tab5_ui_textarea_get_text(s_ta_password);
+        if (tab5_ui_textarea_copy_text(s_ta_password, pwd, sizeof(pwd)) < 0) {
+            return;
+        }
     }
 
     tab5_ui_keyboard_hide();
@@ -362,4 +372,3 @@ TAB5_APP_EXPORT int main(int argc, char **argv)
     app_init();
     return 0;
 }
-
