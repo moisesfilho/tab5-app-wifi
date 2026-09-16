@@ -10,3 +10,12 @@ chmod +x tools/build.sh
 ```
 
 O pacote `.tab5pkg` será gerado em `dist/com.tab5.wifi.tab5pkg`.
+
+## Testes
+
+```bash
+bash tests/run_all_tests.sh
+```
+
+O fluxo de escaneamento limpa a lista de forma adiada durante callbacks de
+interface, preservando a repopulação dos resultados no ciclo seguinte do LVGL.

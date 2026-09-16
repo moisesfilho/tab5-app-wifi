@@ -66,7 +66,7 @@ static void scan_wifi_networks(void)
     if (s_list_networks == TAB5_UI_INVALID_OBJ) {
         return;
     }
-    tab5_ui_obj_clean(s_list_networks);
+    tab5_ui_obj_clean_deferred(s_list_networks);
     s_ap_count = 0;
 
     tab5_ui_show_toast("Buscando redes Wi-Fi...", 1200);
